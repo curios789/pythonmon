@@ -21,4 +21,4 @@ urlpatterns = [
     path('', include('pokedex.urls')),
     path('', include('items.urls')),
     path('', include('team.urls'))
-]
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

@@ -1,0 +1,31 @@
+version: "3.8"
+services:
+  web:
+    build: ./pokedex
+    image: 714991629682.dkr.ecr.us-east-1.amazonaws.com/pokedex:pokedex_web
+    command: gunicorn pokedex.wsgi:application --bind 0.0.0.0:8000
+    volumes:
+      - ./pokedex/:/usr/src/pokedex/
+      - static_volume:/usr/src/pokedex/static
+    expose:
+      - 8000
+    environment:
+      - DB_NAME=pokedex_db
+      - DB_USER=postgres
+      - DB_PASSWORD=admin123
+      - DB_HOST=nctutorials.co4gpwkjkzym.us-east-1.rds.amazonaws.com
+      - DB_PORT=5432
+      - DATABASE=postgres
+      - VIRTUAL_HOST=ec2-54-86-176-210.compute-1.amazonaws.com
+      - VIRTUAL_PORT=8000
+  nginx:
+    build: ./nginx
+    image: 714991629682.dkr.ecr.us-east-1.amazonaws.com/pokedex:pokedex_nginx
+    volumes:
+      - static_volume:/usr/src/pokedex/static
+    ports:
+      - 8000:80
+    depends_on:
+      - web
+volumes:
+  static_volume:
