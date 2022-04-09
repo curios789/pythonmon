@@ -10,7 +10,7 @@ services:
     expose:
       - 8000
     environment:
-      - DB_NAME=pokedex_db
+      - DB_NAME=database-1
       - DB_USER=postgres
       - DB_PASSWORD=admin123
       - DB_HOST=nctutorials.co4gpwkjkzym.us-east-1.rds.amazonaws.com
