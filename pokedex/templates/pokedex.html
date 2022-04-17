@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+<h1>Your Pokemon</h1>
+{% block content %}
+<div class="content">
+    {% for pokemon in pokemon %}
+    <div class="pokemon">
+        <h3 class="poke-name">{{ pokemon[1] }}</h3>
+        <img src="{{ pokemon[3] }}" />
+        <p>{{ pokemon[2] }}</p>
+        {% if pokemon[4] == True %}
+        <span class="seen">Seen? <img src="{{url_for('static',filename='images/true.png') }}" width="20" /></span>
+        {% elif pokemon[4] == False %}
+        <span class="seen">Seen? <img src="{{url_for('static',filename='images/false.png') }}" width="20" /></span>
+        {% endif %}
+        {% if pokemon[5] == True %}
+        <span class="caught">Caught?<img src="{{url_for('static',filename='images/true.png') }}" width="20" /></span>
+        {% elif pokemon[5] == False %}
+        <span class="caught">Caught?<img src="{{url_for('static',filename='images/false.png') }}" width="20" /></span>
+        {% endif %}
+    </div>
+    {% endfor %}
+</div>
+{% endblock %}

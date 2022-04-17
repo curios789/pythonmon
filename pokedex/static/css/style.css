@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+.navbar {
+    background-color: crimson !important;
+}
+
+.navbar-brand {
+    color: white !important;
+}
+
+.pokemon {
+    width: 30%;
+    border: 1px solid lightslategray;
+    display: inline-block;
+    margin: 5px;
+}
+
+.pokemon h3 {
+    background-color: crimson;
+    color: white;
+
+}
+
+.pokemon img {
+    border: 1px solid lightgray;
+    border-radius: 3px;
+    margin: 2px;
+}
+
+.pokemon p {
+    font-family: 'VT323';
+}

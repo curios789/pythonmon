@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<h1>{% block title %} Welcome to your PokeDex! {% endblock %}</h1>
+<div class="hugenav">
+    <p>View Pokedex</p>
+</div>
+<a href="{{ url_for('items') }}"><div class="hugenav">
+    <p>View Inventory</p>
+</div>
+</a>
+{% endblock %}
