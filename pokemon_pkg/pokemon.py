@@ -1,5 +1,27 @@
 import requests
 api_url = "https://pokeapi.co/api/v2/"
+post_url = "http://localhost:5000/"
+#### GET DESCRIPTION FOR DEX ####
+def pull_desc(pkmn):
+    response = requests.get(api_url + "pokemon-species/" + pkmn.name)
+    jsonResponse = response.json()
+    x = 0
+    while True:
+        if (jsonResponse['flavor_text_entries'][x]['language']['name'] == "en"):
+            return jsonResponse['flavor_text_entries'][x]['flavor_text']
+        else:
+            x = x + 1
+#### ADD CAUGHT POKEMON TO DEX ####
+def caught(pkmn):
+    description = pull_desc(pkmn)
+    new_pkmn = {'name': pkmn.name, 'description': description, "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + str(pkmn.number) + ".png", "seen": True, "caught": True}
+    requests.post(post_url + "pokedex/add/", json = new_pkmn)
+#### ADD SEEN POKEMON TO DEX ####
+def seen(pkmn):
+    description = pull_desc(pkmn)
+    new_pkmn = {'name': pkmn.name, 'description': description, "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + str(pkmn.number) + ".png", "seen": True, "caught": False}
+    requests.post(post_url + "pokedex/add/", json = new_pkmn)
+
 class Pokemon:
     """Create Pokemon"""
     def __init__(self, id):
@@ -12,6 +34,7 @@ class Pokemon:
             self.jsonResponse = self.response.json()
             ####### Get Name b/c sometimes input might be an int #######
             self.name = self.jsonResponse['name']
+            self.number = self.jsonResponse['id']
             ####### Assign Stats #######################################
             self.hp = self.jsonResponse['stats'][0]['base_stat']
             self.max_hp = self.jsonResponse['stats'][0]['base_stat']

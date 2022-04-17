@@ -1,5 +1,6 @@
 # This is the battle package --- will contain all the functions that run battles
 import random
+import requests
 
 
 class Battle:
@@ -186,3 +187,25 @@ class Trainer(Battle):
         print("Trainer sends out", self.opp_active.name)
         print("HP:", self.opp_active.hp)
         print("You send out", self.active.name)
+
+#### HERE WE GO --- LET'S ADD A TRY CATCH FUNCTION --- GOTTA CATCH EM ALL!
+def try_catch(wild,wild_hp,ball):
+    max_hp = wild.hp
+    current_hp = wild_hp
+    if ball == "pokeball":
+        ball_value = 12
+        random_value = random.randint(0,255)
+    elif ball == "greatball":
+        ball_value = 8
+        random_value = random.randint(0,200)
+    f = ((max_hp * 255 * 4) / (current_hp * ball_value))
+    print(f)
+    print(random_value)
+    if (f >= random_value):
+        print("You have caught the Pokemon!")
+        caught_poke = {'name': wild.name, 'caught': True}
+        print(caught_poke)
+        requests.patch("http://localhost:5000/pokedex/add/", json = caught_poke)
+    else:
+        print("You have failed to catch the Pokemon...")
+

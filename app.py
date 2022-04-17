@@ -1,6 +1,7 @@
 import random
 from pokemon_pkg import pokemon, battle
 
+
 class EnemyTeam:
     def __init__(self, value):
         self.value = value
@@ -56,6 +57,7 @@ while True:
         team.append(pokemon.Pokemon(poke5))
         for x in range(0,5):
             display_team(team[x])
+            pokemon.caught(team[x])
         break
     else:
         if hasattr(pokemon.Pokemon(poke1),"error"):
@@ -63,6 +65,7 @@ while True:
         else:
             team.append(pokemon.Pokemon(poke1))
         display_team(team[0])
+        pokemon.caught(team[0])
         while True:
             poke2 = input("Please type the name of a Pokemon:")
             if hasattr(pokemon.Pokemon(poke2),"error"):
@@ -71,6 +74,7 @@ while True:
                 team.append(pokemon.Pokemon(poke2))
                 break
         display_team(team[1])
+        pokemon.caught(team[1])
         while True:
             poke3 = input("Please type the name of a Pokemon:")
             if hasattr(pokemon.Pokemon(poke3),"error"):
@@ -79,6 +83,7 @@ while True:
                 team.append(pokemon.Pokemon(poke3))
                 break
         display_team(team[2])
+        pokemon.caught(team[2])
         while True:
             poke4 = input("Please type the name of a Pokemon:")
             if hasattr(pokemon.Pokemon(poke4),"error"):
@@ -87,6 +92,7 @@ while True:
                 team.append(pokemon.Pokemon(poke4))
                 break
         display_team(team[3])
+        pokemon.caught(team[3])
         while True:
             poke5 = input("Please type the name of a Pokemon:")
             if hasattr(pokemon.Pokemon(poke5),"error"):
@@ -95,6 +101,7 @@ while True:
                 team.append(pokemon.Pokemon(poke5))
                 break
         display_team(team[4])
+        pokemon.caught(team[4])
     break
 
 
@@ -106,6 +113,7 @@ while True:
     user_choice = input("Choose an option: ")
     if user_choice == "1":
         enemy = pokemon.EnemyPokemon(str(random.randint(1,800)))
+        pokemon.seen(enemy)
         print("You begin to explore...\n")
         wild_battle = battle.Wild(team,enemy)
         active = wild_battle.active
@@ -121,7 +129,7 @@ while True:
                     print(wild_battle.active.name, "has fainted! Choose next Pokemon")
                     active = wild_battle.switch_pokemon(wild_battle.team, active)
             print("\n\033[032m======== YOUR TURN ========\033[0m")
-            print("1. Fight\n2. Switch Pokemon\n3. Run Away")
+            print("1. Fight\n2. Switch Pokemon\n3. Try to catch\n4. Run Away")
             choice = input("What will you do?")
             if choice == "1":
                 #fight
@@ -134,6 +142,9 @@ while True:
                 active = wild_battle.switch_pokemon(wild_battle.team,active)
                 print("Go,", active.name + "!")
             if choice == "3":
+                #the catch function!
+                battle.try_catch(wild_battle.wild, wild_battle.wild_hp,"pokeball")
+            if choice == "4":
                 #run away
                 print("You run away....")
                 break
