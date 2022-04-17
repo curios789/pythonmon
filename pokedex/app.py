@@ -26,7 +26,7 @@ def items():
     conn.close()
     return render_template('items.html', items=items)
 
-@app.route('/items/add/', methods=("POST", "GET"))
+@app.route('/items/add/', methods=["POST", "GET"])
 def add_item():
     conn = get_db_connection()
     cur = conn.cursor()
@@ -49,19 +49,29 @@ def pokedex():
     conn.close()
     return render_template('pokedex.html', pokemon=pokemon)
 
-@app.route('/pokedex/add/', methods=("POST", "PATCH"))
+@app.route('/pokedex/add/', methods=["POST", "PATCH"])
 def add_pokemon():
     conn = get_db_connection()
     cur = conn.cursor()
-    if (request.json['caught'] == True):
-        caught = True
+    if request.method =='PATCH':
+        try:
+            cur.execute("UPDATE pokedex_mon SET caught = True WHERE name=" + request.json['name'])
+            conn.commit()
+            cur.close()
+            conn.close()
+            return jsonify(True)
+        except:
+            return jsonify(False)
     else:
-        caught = False
-    try:
-        cur.execute('INSERT INTO pokedex_mon (name,description,image,seen,caught) VALUES (%s,%s,%s,%s,%s)', (request.json['name'], request.json['description'], request.json['image'], True, caught))
-        conn.commit()
-        cur.close()
-        conn.close()
-        return jsonify(True)
-    except:
-        return jsonify(False)
+        if (request.json['caught'] == True):
+            caught = True
+        else:
+            caught = False
+        try:
+            cur.execute('INSERT INTO pokedex_mon (name,description,image,seen,caught) VALUES (%s,%s,%s,%s,%s)', (request.json['name'], request.json['description'], request.json['image'], True, caught))
+            conn.commit()
+            cur.close()
+            conn.close()
+            return jsonify(True)
+        except:
+            return jsonify(False)
