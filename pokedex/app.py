@@ -43,32 +43,47 @@ def add_item():
 def pokedex():
     conn = get_db_connection()
     cur = conn.cursor()
-    cur.execute('SELECT * FROM pokedex_mon;')
+    cur.execute('SELECT * FROM pokedex_mon ORDER BY dex_id;')
     pokemon = cur.fetchall()
     cur.close()
     conn.close()
     return render_template('pokedex.html', pokemon=pokemon)
 
-@app.route('/pokedex/add/', methods=["POST", "PATCH"])
+@app.route('/pokedex/<poke>/', methods=["GET"])
+def get_pokemon(poke):
+    conn = get_db_connection()
+    cur = conn.cursor()
+    q = "SELECT * FROM pokedex_mon WHERE name= '" + poke + "'"
+    cur.execute(q)
+    conn.commit()
+    rowcount = cur.rowcount
+    cur.close()
+    conn.close()
+    if rowcount > 0:
+        return "True"
+    else:
+        return "False"
+@app.route('/pokedex/add/', methods=["GET","POST", "PATCH"])
 def add_pokemon():
     conn = get_db_connection()
     cur = conn.cursor()
     if request.method =='PATCH':
         try:
-            cur.execute("UPDATE pokedex_mon SET caught = True WHERE name=" + request.json['name'])
+            q = "UPDATE pokedex_mon SET caught = 'True' WHERE name = '" + request.json['name'] +"'"
+            cur.execute(q)
             conn.commit()
             cur.close()
             conn.close()
-            return jsonify(True)
+            return jsonify("patch worked")
         except:
-            return jsonify(False)
+            return jsonify("patch failed")
     else:
         if (request.json['caught'] == True):
             caught = True
         else:
             caught = False
         try:
-            cur.execute('INSERT INTO pokedex_mon (name,description,image,seen,caught) VALUES (%s,%s,%s,%s,%s)', (request.json['name'], request.json['description'], request.json['image'], True, caught))
+            cur.execute('INSERT INTO pokedex_mon (name,description,image,seen,caught,dex_id) VALUES (%s,%s,%s,%s,%s,%s)', (request.json['name'], request.json['description'], request.json['image'], True, caught, request.json['dex_id']))
             conn.commit()
             cur.close()
             conn.close()

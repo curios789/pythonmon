@@ -143,7 +143,9 @@ while True:
                 print("Go,", active.name + "!")
             if choice == "3":
                 #the catch function!
-                battle.try_catch(wild_battle.wild, wild_battle.wild_hp,"pokeball")
+                f = battle.try_catch(wild_battle.wild, wild_battle.wild_hp,"pokeball")
+                if (f == "caught"):
+                    break
             if choice == "4":
                 #run away
                 print("You run away....")

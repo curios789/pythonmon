@@ -203,9 +203,9 @@ def try_catch(wild,wild_hp,ball):
     print(random_value)
     if (f >= random_value):
         print("You have caught the Pokemon!")
-        caught_poke = {'name': wild.name, 'caught': True}
-        print(caught_poke)
+        caught_poke = {"name": wild.name, "caught": True}
         requests.patch("http://localhost:5000/pokedex/add/", json = caught_poke)
+        return("caught")
     else:
         print("You have failed to catch the Pokemon...")
 

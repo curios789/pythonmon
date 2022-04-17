@@ -5,6 +5,6 @@ services:
     build:
       context: .
       dockerfile: ./Dockerfile
-    image: 714991629682.dkr.ecr.us-east-1.amazonaws.com/pokedex:pokedex_web
+    image: 714991629682.dkr.ecr.us-east-1.amazonaws.com/pokedex:pokedex:web
     ports:
       - 5000:5000

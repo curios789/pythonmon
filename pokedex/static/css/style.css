@@ -4,15 +4,23 @@
     background-color: crimson !important;
 }
 
+.navbar a {
+    color: blanchedalmond !important;
+}
+
 .navbar-brand {
     color: white !important;
+    font-weight: bold;
+    font-size: 24px;
 }
 
 .pokemon {
     width: 30%;
+    height: 350px;
     border: 1px solid lightslategray;
     display: inline-block;
     margin: 5px;
+    vertical-align: top;
 }
 
 .pokemon h3 {

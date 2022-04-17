@@ -5,7 +5,7 @@
 <div class="content">
     {% for pokemon in pokemon %}
     <div class="pokemon">
-        <h3 class="poke-name">{{ pokemon[1] }}</h3>
+        <h3 class="poke-name">{{ pokemon[1] }}<span class='dex_number'>{{ pokemon[6] }}</span></h3>
         <img src="{{ pokemon[3] }}" />
         <p>{{ pokemon[2] }}</p>
         {% if pokemon[4] == True %}

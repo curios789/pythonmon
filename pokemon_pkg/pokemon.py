@@ -1,3 +1,4 @@
+from decimal import DecimalException
 import requests
 api_url = "https://pokeapi.co/api/v2/"
 post_url = "http://localhost:5000/"
@@ -14,13 +15,19 @@ def pull_desc(pkmn):
 #### ADD CAUGHT POKEMON TO DEX ####
 def caught(pkmn):
     description = pull_desc(pkmn)
-    new_pkmn = {'name': pkmn.name, 'description': description, "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + str(pkmn.number) + ".png", "seen": True, "caught": True}
-    requests.post(post_url + "pokedex/add/", json = new_pkmn)
+    print(pkmn.name)
+    get_url = post_url + "pokedex/" + pkmn.name + "/"
+    seen_before = requests.get(get_url)
+    if seen_before.text == "False":
+        new_pkmn = {'name': pkmn.name, 'description': description, "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + str(pkmn.number) + ".png", "seen": True, "caught": True, "dex_id": pkmn.id}
+        requests.post(post_url + "pokedex/add/", json = new_pkmn)
 #### ADD SEEN POKEMON TO DEX ####
 def seen(pkmn):
     description = pull_desc(pkmn)
-    new_pkmn = {'name': pkmn.name, 'description': description, "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + str(pkmn.number) + ".png", "seen": True, "caught": False}
-    requests.post(post_url + "pokedex/add/", json = new_pkmn)
+    seen_before = requests.get(post_url + "pokedex/" + pkmn.name + "/")
+    if seen_before.text == "False":
+        new_pkmn = {'name': pkmn.name, 'description': description, "image": "https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/" + str(pkmn.number) + ".png", "seen": True, "caught": False, "dex_id": pkmn.id}
+        requests.post(post_url + "pokedex/add/", json = new_pkmn)
 
 class Pokemon:
     """Create Pokemon"""
